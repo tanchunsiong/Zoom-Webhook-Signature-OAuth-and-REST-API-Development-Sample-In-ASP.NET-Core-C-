@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.34009.444
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zoom API Webhook Sample ASP DOT NET Core C#", "Zoom API Webhook Sample ASP DOT NET Core C#.csproj", "{579DC549-F77B-43DE-9C4F-82BEE5D7734A}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{579DC549-F77B-43DE-9C4F-82BEE5D7734A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{579DC549-F77B-43DE-9C4F-82BEE5D7734A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{579DC549-F77B-43DE-9C4F-82BEE5D7734A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{579DC549-F77B-43DE-9C4F-82BEE5D7734A}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {E1B0C415-F674-48F0-A455-DA8263AA060D}
+	EndGlobalSection
+EndGlobal
