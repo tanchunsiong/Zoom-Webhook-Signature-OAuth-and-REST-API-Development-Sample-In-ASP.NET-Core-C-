@@ -1,0 +1,15 @@
+[Unit]
+Description=csharpsample
+After=network.target
+
+[Service]
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/csharp.asdc.cc
+ExecStart="/var/www/csharp.asdc.cc/Zoom API Webhook Sample ASP DOT NET Core C#" 
+Restart=always
+RestartSec=10
+SyslogIdentifier=csharpsample
+
+[Install]
+WantedBy=multi-user.target

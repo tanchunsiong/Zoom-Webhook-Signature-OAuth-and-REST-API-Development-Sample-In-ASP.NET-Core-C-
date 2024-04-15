@@ -1,0 +1,363 @@
+﻿
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple Tab Control</title>
+    <style>
+        /* Styles for the tab control */
+        .tab {
+            overflow: hidden;
+            border: 1px solid #ccc;
+            background-color: #f1f1f1;
+        }
+
+            .tab button {
+                background-color: inherit;
+                float: left;
+                border: none;
+                outline: none;
+                cursor: pointer;
+                padding: 14px 16px;
+                transition: 0.3s;
+            }
+
+                .tab button:hover {
+                    background-color: #ddd;
+                }
+
+                .tab button.active {
+                    background-color: #ccc;
+                }
+
+        .tabcontent {
+            display: none;
+            padding: 6px 12px;
+            border: 1px solid #ccc;
+            border-top: none;
+        }
+
+            .tabcontent:first-child {
+                display: block;
+            }
+    </style>
+</head>
+<body>
+
+    <h1>Sample code for C# csharp with Zoom API / Zoom SDK</h1>
+    <p>This is a sample code page for C# csharp. It shows the common code sample when interacting with Zoom Webhook, Zoom Meeting SDK Auth Signature, Zoom OAuth and Zoom REST API.</p>
+
+    <h2>Github Link</h2>
+
+    <a href="https://github.com/tanchunsiong/Zoom-API-Webhook-Sample-ASP-DOT-NET-Core-C-">github source code</a> <br />
+    <h2>Live Demo</h2>
+    <div id="data"></div>
+
+    <a href="/webhook">Webhook</a><br />
+    <a href="/s2soauthaccesstoken">Get access token from S2S OAuth</a><br />
+    <a href="/redirecturlforoauth?code=xxxx">Redirect URL for OAuth </a><br />
+    <a href="/oauthrefreshtoken?code=xxxx">Refresh Token for OAuth </a><br />
+    <br />
+    <a href="/">application adding url</a>
+
+    <br />
+    <br />
+    <h2>Code Samples</h2>
+    <div class="tab">
+        <a href="#Tab1"><button class="tablinks" onclick="openTab(event, 'Tab1')">Handling Webhook</button></a>
+        <a href="#Tab2"><button class="tablinks" onclick="openTab(event, 'Tab2')">Get Access Token (S2S Oauth) (To be completed)</button></a>
+        <a href="#Tab3"><button class="tablinks" onclick="openTab(event, 'Tab3')">Redirect URL for OAuth</button></a>
+        <a href="#Tab4"><button class="tablinks" onclick="openTab(event, 'Tab4')">Meeting SDK Token (To be completed)</button></a>
+        <a href="#Tab5"><button class="tablinks" onclick="openTab(event, 'Tab5')">OAuth Refresh Token</button></a>
+        <a href="#Tab6"><button class="tablinks" onclick="openTab(event, 'Tab6')">Call REST API (To be completed)</button></a>
+        <a href="#Tab7"><button class="tablinks" onclick="openTab(event, 'Tab7')">.env reference</button></a>
+        <a href="#Tab8"><button class="tablinks" onclick="openTab(event, 'Tab8')">Unused</button></a>
+    </div>
+
+
+    <div id="Tab1" class="tabcontent">
+        <h3>Tab 1 Content</h3>
+
+        <pre>
+        <code>
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+public static class webhook
+{
+    public static Task GetWebhook(HttpContext context)
+    {
+        return Task.Run(() =>
+        {
+            // Handle GET request logic here
+            context.Response.WriteAsync("GET request received.");
+        });
+    }
+
+    public static Task PostWebhook(HttpContext context)
+    {
+        return Task.Run(async () =>
+        {
+            // Get the request content as a string asynchronously
+            string requestBody = await new StreamReader(context.Request.Body).ReadToEndAsync();
+
+            try
+            {
+                JObject jsonObject = JObject.Parse(requestBody);
+                JObject payload = (JObject)jsonObject["payload"];
+                string plainToken = payload["plainToken"].ToString();
+                string encryptedToken = GetHash(plainToken, "");
+
+                var response = new
+                {
+                    plainToken,
+                    encryptedToken
+                };
+                context.Response.ContentType = "application/json";
+
+                // Write the JSON response
+                await context.Response.WriteAsync(JsonConvert.SerializeObject(response));
+
+            }
+            catch (Exception ex)
+            {
+                await context.Response.WriteAsync("Error: " + ex.ToString());
+            }
+
+        });
+    }
+
+    static string GetHash(string text, string key)
+    {
+        using (HMACSHA256 sha256 = new HMACSHA256(Encoding.UTF8.GetBytes(key)))
+        {
+            byte[] hashBytes = sha256.ComputeHash(Encoding.UTF8.GetBytes(text));
+            return BitConverter.ToString(hashBytes).Replace("-", "").ToLower();
+        }
+    }
+}
+
+
+</code>
+</pre>
+
+    </div>
+
+    <div id="Tab2" class="tabcontent">
+        <h3>Tab 2 Content</h3>
+        <pre>
+        <code>
+
+
+    </code>
+    </pre>
+    </div>
+
+    <div id="Tab3" class="tabcontent">
+        <h3>Tab 3 Content</h3>
+        <pre>
+        <code>
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.IO;
+using System.Net.Http.Headers;
+using System.Security.Cryptography;
+using System.Text;
+using System.Threading.Tasks;
+public static class redirectforoauth
+{
+ 
+    public static Task RedirectForOauth(HttpContext context)
+    {
+        return Task.Run(async () =>
+        {
+
+          
+            String AppClientID = Environment.GetEnvironmentVariable("OAUTH_CLIENT_ID"); ;
+            String AppClientSecret = Environment.GetEnvironmentVariable("OAUTH_CLIENT_SECRET"); ;
+            String redirectURL = "https://csharp.asdc.cc/redirectforoauth";
+
+            var authorizationToken = context.Request.Query["code"].ToString();
+
+            try
+            {
+                using (HttpClient _httpClient = new HttpClient())
+                {
+                    var url = "https://zoom.us/oauth/token";
+
+                    using var client = new HttpClient();
+
+                    // Encode the client ID and client secret
+                    var credentials = Convert.ToBase64String(Encoding.UTF8.GetBytes($"{AppClientID}:{AppClientSecret}"));
+                    client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Basic", credentials);
+
+
+                    var content = new FormUrlEncodedContent(new Dictionary<string, string>
+                {
+                    { "grant_type", "authorization_code" },
+                    { "redirect_uri", redirectURL },
+                    { "code", authorizationToken }
+                });
+
+                    var response = await client.PostAsync(url, content);
+
+
+                    if (response.IsSuccessStatusCode)
+                    {
+                        var responseContent = await response.Content.ReadAsStringAsync();
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(responseContent));
+
+                    }
+                    else
+                    {
+                        // Handle error response
+                        await context.Response.WriteAsync(JsonConvert.SerializeObject(response.StatusCode));
+
+                    }
+                }
+            }
+            catch (HttpRequestException ex)
+            {
+                // Handle HTTP request exceptions
+                Console.WriteLine($"HTTP Request Exception: {ex.Message}");
+                //throw new Exception($"HTTP Request Exception: {ex.Message}");
+            }
+            catch (System.Text.Json.JsonException ex)
+            {
+                // Handle JSON parsing exceptions
+                Console.WriteLine($"JSON Parsing Exception: {ex.Message}");
+                throw new Exception($"JSON Parsing Exception: {ex.Message}");
+            }
+            catch (Exception ex)
+            {
+                // Handle other exceptions
+                Console.WriteLine($"Exception occurred: {ex.Message}");
+                throw new Exception($"Exception occurred: {ex.Message}");
+            }
+        });
+    }
+
+    internal static RequestDelegate RedirectForOauth(string? oAUTH_CLIENT_ID, string? oAUTH_CLIENT_SECRET)
+    {
+        throw new NotImplementedException();
+    }
+}
+
+
+
+
+</code>
+</pre>
+    </div>
+
+
+    <div id="Tab4" class="tabcontent">
+        <h3>Tab 4 Content</h3>
+        <pre>
+<code>
+
+</code>
+</pre>
+    </div>
+
+
+    <div id="Tab5" class="tabcontent">
+        <h3>Tab 5 Content</h3>
+        <pre>
+        <code>
+    
+</pre>
+</code>
+
+ </div>
+
+
+    <div id="Tab6" class="tabcontent">
+        <h3>Tab 6 Content</h3>
+        <pre>
+        <code>
+
+
+</pre>
+        </code>
+
+    </div>
+
+
+
+    <div id="Tab7" class="tabcontent">
+        <h3>Tab 7 Content</h3>
+        <pre>
+        <code>
+        S2S_OAUTH_CLIENT_ID='xxxxxxxxxx'
+        S2S_OAUTH_CLIENT_SECRET='xxxxxxxxxx'
+        S2S_OAUTH_ACCOUNT_ID='xxxxxxxxxx'
+        OAUTH_SECRET_TOKEN='xxxxxxxxxx'
+        OAUTH_CLIENT_ID='xxxxxxxxxx'
+        OAUTH_CLIENT_SECRET='xxxxxxxxxx'
+        MSDK_CLIENT_SECRET='xxxxxxxxxx'
+        MSDK_CLIENT_ID='xxxxxxxxxx'
+
+</code>
+</pre>
+    </div>
+
+
+
+    <div id="Tab8" class="tabcontent">
+        <h3>Tab 8 Content</h3>
+        <pre>
+            <code>
+            </code>
+</pre>
+    
+
+    </div>
+
+
+    <script>
+function openTab(evt, tabName) {
+  // Get all elements with class="tabcontent" and hide them
+  var tabcontent = document.getElementsByClassName("tabcontent");
+  for (var i = 0; i < tabcontent.length; i++) {
+    tabcontent[i].style.display = "none";
+  }
+
+  // Get all elements with class="tablinks" and remove the class "active"
+  var tablinks = document.getElementsByClassName("tablinks");
+  for (var i = 0; i < tablinks.length; i++) {
+    tablinks[i].className = tablinks[i].className.replace(" active", "");
+  }
+
+  // Show the current tab, and add an "active" class to the button that opened the tab
+  document.getElementById(tabName).style.display = "block";
+  evt.currentTarget.className += " active";
+}
+
+// Check if there's a hash in the URL and open the corresponding tab
+window.onload = function() {
+  var hash = window.location.hash;
+  if (hash) {
+    var tabName = hash.substring(1);
+    var tab = document.getElementById(tabName);
+    if (tab) {
+      var evt = document.createEvent("MouseEvents");
+      evt.initEvent("click", true, true);
+      document.querySelector("button.tablinks").dispatchEvent(evt);
+    }
+  }
+};
+    </script>
+
+</body>
+</html>
