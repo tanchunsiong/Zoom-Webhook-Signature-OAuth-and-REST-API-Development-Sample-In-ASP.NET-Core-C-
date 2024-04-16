@@ -45,12 +45,12 @@ app.Urls.Add("http://127.0.0.1:7014");
 
 app.MapGet("/", HandleRoot);
 app.MapGet("/webhook", webhook.GetWebhook);
-
 app.MapPost("/webhook", webhook.PostWebhook);
-
 app.MapGet("/redirectforoauth", redirectforoauth.RedirectForOauth);
-
-
+app.MapGet("/callapi", callapi.CallAPI);
+app.MapGet("/s2soauth", s2soauth.S2SOauth);
+app.MapGet("/oauthrefreshtoken", oauthrefreshtoken.OauthRefreshToken);
+app.MapGet("/meetingsdk", meetingsdk.MeetingSDK);
 
 static async Task HandleRoot(HttpContext context)
 {

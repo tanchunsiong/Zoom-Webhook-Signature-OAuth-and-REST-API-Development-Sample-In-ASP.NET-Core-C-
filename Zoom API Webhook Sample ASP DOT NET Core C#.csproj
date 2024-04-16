@@ -8,11 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove=".env" />
     <None Remove="csharpsample.service" />
     <None Remove="index.html" />
   </ItemGroup>
 
   <ItemGroup>
+    <Content Include=".env">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="csharpsample.service">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -24,6 +28,7 @@
   <ItemGroup>
     <PackageReference Include="dotenv.net" Version="3.1.3" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
   </ItemGroup>
 
 </Project>
