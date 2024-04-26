@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Simple Tab Control</title>
+    <title>Microsoft .NET C# Sample code for Zoom Meeting SDK, Zoom OAuth App, Webhooks and REST API</title>
     <style>
         /* Styles for the tab control */
         .tab {
@@ -42,6 +42,11 @@
                 display: block;
             }
     </style>
+    <!-- Include Prism.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/prism.min.js"></script>
+    <!-- Include Prism.js CSS for your preferred theme -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/prism/1.25.0/themes/prism-okaidia.min.css">
+
 </head>
 <body>
 
@@ -61,7 +66,7 @@
     <a href="/callapi?access_token=xxxx">Call API </a><br />
     <a href="/meetingsdk">Meeting SDK </a><br />
     <br />
-    <a href="/">application adding url</a>
+    <a href="https://zoom.us/oauth/authorize?response_type=code&client_id=U32VQMX_QJCQbTgjDq450g&redirect_uri=https%3A%2F%2Fcsharp.asdc.cc%2Fredirectforoauth">application adding url</a>
 
     <br />
     <br />
@@ -82,7 +87,7 @@
         <h3>Tab 1 Content</h3>
 
         <pre>
-        <code>
+<code class="language-csharp">
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -155,7 +160,7 @@ public static class webhook
     <div id="Tab2" class="tabcontent">
         <h3>Tab 2 Content</h3>
         <pre>
-        <code>
+<code class="language-csharp">
 using Newtonsoft.Json;
 using System.Text;
 using System.Text.Json;
@@ -235,7 +240,7 @@ using System.Text.Json;
     <div id="Tab3" class="tabcontent">
         <h3>Tab 3 Content</h3>
         <pre>
-        <code>
+<code class="language-csharp">
 
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -336,7 +341,7 @@ public static class redirectforoauth
     <div id="Tab4" class="tabcontent">
         <h3>Tab 4 Content</h3>
         <pre>
-        <code>
+<code class="language-csharp">
             
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -426,7 +431,7 @@ public static class meetingsdk
     <div id="Tab5" class="tabcontent">
         <h3>Tab 5 Content</h3>
         <pre>
-        <code>
+<code class="language-csharp">
             
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -494,18 +499,16 @@ public static class oauthrefreshtoken
 }
 
 
-            </code>
+</code>
 </pre>
-
-
     </div>
 
 
     <div id="Tab6" class="tabcontent">
         <h3>Tab 6 Content</h3>
         <pre>
-        <code>
-            using Microsoft.AspNetCore.Builder;
+<code class="language-csharp">
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using System.Net.Http;
@@ -578,18 +581,18 @@ public class callapi
     <div id="Tab7" class="tabcontent">
         <h3>Tab 7 Content</h3>
         <pre>
-        <code>
-        S2S_OAUTH_CLIENT_ID='xxxxxxxxxx'
-        S2S_OAUTH_CLIENT_SECRET='xxxxxxxxxx'
-        S2S_OAUTH_ACCOUNT_ID='xxxxxxxxxx'
-        OAUTH_SECRET_TOKEN='xxxxxxxxxx'
-        OAUTH_CLIENT_ID='xxxxxxxxxx'
-        OAUTH_CLIENT_SECRET='xxxxxxxxxx'
-        MSDK_CLIENT_SECRET='xxxxxxxxxx'
-        MSDK_CLIENT_ID='xxxxxxxxxx'
+        <code class="language-csharp">
+                S2S_OAUTH_CLIENT_ID='xxxxxxxxxx'
+                S2S_OAUTH_CLIENT_SECRET='xxxxxxxxxx'
+                S2S_OAUTH_ACCOUNT_ID='xxxxxxxxxx'
+                OAUTH_SECRET_TOKEN='xxxxxxxxxx'
+                OAUTH_CLIENT_ID='xxxxxxxxxx'
+                OAUTH_CLIENT_SECRET='xxxxxxxxxx'
+                MSDK_CLIENT_SECRET='xxxxxxxxxx'
+                MSDK_CLIENT_ID='xxxxxxxxxx'
 
-</code>
-</pre>
+        </code>
+        </pre>
     </div>
 
 
@@ -597,11 +600,9 @@ public class callapi
     <div id="Tab8" class="tabcontent">
         <h3>Tab 8 Content</h3>
         <pre>
-        <code>
+            <code class="language-csharp">
             </code>
 </pre>
-
-
     </div>
 
 
